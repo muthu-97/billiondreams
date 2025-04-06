@@ -6,6 +6,10 @@
     <title>Billion Dreams | Your Personal AI Photographer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -30,6 +34,7 @@
             overflow-x: hidden;
         }
         
+        /* Updated header to include CTA button */
         .header {
             background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
             color: white;
@@ -44,6 +49,15 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.1);
         }
         
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
@@ -55,6 +69,26 @@
         .logo-img {
             max-height: 40px;
             border-radius: 50%;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background-color: #f8f9fa;
         }
         
         .hero {
@@ -227,6 +261,122 @@
             100% { transform: translateY(0px); }
         }
         
+        /* New section for Zuzu's story */
+        .zuzu-story {
+            padding: 5rem 1rem;
+            background: linear-gradient(135deg, #6a0dad15, #9d4edd15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .zuzu-story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .zuzu-story h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--primary-dark);
+        }
+        
+        .zuzu-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+        
+        .zuzu-image {
+            flex: 1 1 400px;
+            max-width: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
+            transform: rotate(-2deg);
+            transition: transform 0.5s ease;
+        }
+        
+        .zuzu-image:hover {
+            transform: rotate(0deg) scale(1.03);
+        }
+        
+        .zuzu-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .zuzu-text {
+            flex: 1 1 500px;
+        }
+        
+        .zuzu-text h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .zuzu-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .zuzu-powers {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .zuzu-powers h4 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .zuzu-powers ul {
+            list-style-type: none;
+        }
+        
+        .zuzu-powers li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .zuzu-powers li:before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+        
+        .zuzu-decoration {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            opacity: 0.05;
+            border-radius: 50%;
+        }
+        
+        .zuzu-decoration:nth-child(1) {
+            top: -100px;
+            left: -100px;
+        }
+        
+        .zuzu-decoration:nth-child(2) {
+            bottom: -120px;
+            right: -80px;
+            width: 300px;
+            height: 300px;
+        }
+        
         .cta {
             padding: 4rem 1rem;
             background-color: white;
@@ -301,7 +451,7 @@
                 font-size: 1rem;
             }
             
-            .features h2, .advantage h2, .cta h2 {
+            .features h2, .advantage h2, .cta h2, .zuzu-story h2 {
                 font-size: 1.75rem;
             }
             
@@ -313,6 +463,14 @@
             
             .waitlist-container {
                 height: 500px;
+            }
+            
+            .zuzu-content {
+                gap: 2rem;
+            }
+            
+            .zuzu-image {
+                transform: rotate(0deg);
             }
         }
         
@@ -338,9 +496,12 @@
 </head>
 <body>
     <header class="header">
-        <div class="logo">
-            <img src="logo_big.jpg" alt="Billion Dreams Logo" class="logo-img">
-            Billion Dreams
+        <div class="header-content">
+            <div class="logo">
+                <img src="logo_big.jpg" alt="Billion Dreams Logo" class="logo-img">
+                Billion Dreams
+            </div>
+            <a href="#waitlist" class="cta-button">Join the Waitlist</a>
         </div>
     </header>
     
@@ -348,6 +509,7 @@
         <div class="hero-content">
             <h1 class="fade-in">Become the Star of Your Imagination</h1>
             <p class="slide-up">Transform your wildest dreams into stunning AI-generated images that actually look like you. No more generic AI faces—just you in any scenario you can imagine.</p>
+            <a href="#waitlist" class="cta-button" style="font-size: 1.2rem; padding: 0.75rem 1.5rem; margin-bottom: 1rem;">Join the Waitlist</a>
             <img src="transform.jpg" alt="AI Transformation Example" class="hero-image fade-in">
         </div>
     </section>
@@ -392,6 +554,36 @@
         </div>
     </section>
     
+    <!-- New Section for Zuzu's Story -->
+    <section class="zuzu-story">
+        <div class="zuzu-decoration"></div>
+        <div class="zuzu-decoration"></div>
+        <div class="zuzu-story-container">
+            <h2>Meet Zuzu: The Magic Behind Billion Dreams</h2>
+            <div class="zuzu-content">
+                <div class="zuzu-image fade-in">
+                    <img src="zuzu.png" alt="Zuzu, the magical mascot of Billion Dreams">
+                </div>
+                <div class="zuzu-text slide-up">
+                    <h3>The Story of Zuzu</h3>
+                    <p>Zuzu comes from a distant, magical world known as the "Dreamscape," where all imaginations begin. In the Dreamscape, creativity flows freely and takes physical form, shaping the landscape and its inhabitants.</p>
+                    <p>Born with extraordinary powers to visualize and manifest dreams, Zuzu became the most gifted dream-weaver in the Dreamscape. One day, while exploring the boundaries between worlds, Zuzu discovered humans and their incredible imagination.</p>
+                    <p>Fascinated by human creativity but noticing how they struggled to bring their visions to life, Zuzu partnered with Billion Dreams to bridge the gap between imagination and reality.</p>
+                    
+                    <div class="zuzu-powers">
+                        <h4>How Zuzu Powers Billion Dreams</h4>
+                        <ul>
+                            <li>Zuzu channels the essence of your appearance to create personalized AI models</li>
+                            <li>Maintains the consistency of your features across all generated images</li>
+                            <li>Translates your creative ideas into visual masterpieces</li>
+                            <li>Infuses each creation with a touch of Dreamscape magic</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <section class="advantage">
         <div class="advantage-container">
             <h2>Why Billion Dreams is Different</h2>
@@ -420,7 +612,7 @@
         </div>
     </section>
     
-    <section class="cta">
+    <section id="waitlist" class="cta">
         <div class="cta-container">
             <h2 class="fade-in">Join the Waitlist</h2>
             <p class="slide-up">Be among the first to experience the future of personalized AI photography. Limited early access spots available!</p>
@@ -471,7 +663,7 @@
             });
             
             // Observe feature cards and other elements
-            document.querySelectorAll('.feature-card, .advantage-text, .advantage-image').forEach(el => {
+            document.querySelectorAll('.feature-card, .advantage-text, .advantage-image, .zuzu-image, .zuzu-text').forEach(el => {
                 el.style.visibility = 'hidden';
                 observer.observe(el);
             });
