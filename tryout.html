@@ -216,7 +216,7 @@
       const email = document.getElementById('email').value;
       if (!email) return showToast("Please enter your email.");
 
-      const res = await fetch("https://us-central1-YOUR_PROJECT.cloudfunctions.net/generateCouponReq", {
+      const res = await fetch("https://us-central1-aiimagegen-meetmuthu-com.cloudfunctions.net/generateCouponReq", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email })
@@ -246,7 +246,7 @@
       formData.append("image", file);
 
       spinner.style.display = 'block';
-      const res = await fetch("https://us-central1-YOUR_PROJECT.cloudfunctions.net/tryoutGenerate", {
+      const res = await fetch("https://us-central1-aiimagegen-meetmuthu-com.cloudfunctions.net/tryoutGenerate", {
         method: "POST",
         body: formData
       });
