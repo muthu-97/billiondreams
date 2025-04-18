@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tryout | Billion Dreams</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      padding: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #8a2be2;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 1rem 0 0.5rem;
+    }
+    input[type="email"],
+    input[type="file"],
+    select,
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      background-color: #8a2be2;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #6a0dad;
+    }
+    .style-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+      justify-content: center;
+    }
+    .style-card {
+      flex: 1 0 140px;
+      max-width: 160px;
+      padding: 1rem;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      background-color: #fafafa;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .style-card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .style-card:hover,
+    .style-card.selected {
+      border-color: #8a2be2;
+      background-color: #f1e6ff;
+      transform: translateY(-3px);
+    }
+    .preview {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.95);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+    .preview img {
+      max-width: 45%;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transition: transform 0.4s ease;
+    }
+    .preview img:hover {
+      transform: scale(1.05);
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #8a2be2;
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 500;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 9999;
+    }
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #8a2be2;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 2rem auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .usage-counter {
+      font-size: 0.9rem;
+      color: #555;
+      text-align: center;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Style Tryout</h1>
+  <div class="container">
+    <div class="section">
+      <label for="email">Your Email</label>
+      <input type="email" id="email" placeholder="Enter the email you used to sign up">
+      <button id="getCoupon">Get Coupon Code</button>
+      <p class="usage-counter" id="usageCount"></p>
+    </div>
+
+    <div class="section">
+      <label>Select a Style</label>
+      <div class="style-grid" id="styleGrid"></div>
+    </div>
+
+    <div class="section">
+      <label>Upload Your Image</label>
+      <input type="file" id="imageUpload" accept="image/*">
+    </div>
+
+    <div class="section">
+      <button id="submitTryout">Generate Image</button>
+      <div id="spinner" class="spinner" style="display:none;"></div>
+    </div>
+
+    <div class="preview" id="preview"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const styles = [
+      { name: "Anime", image: "AnimeStyle.jpg", description: "Vibrant Japanese cartoon style" },
+      { name: "Pixar", image: "PixarStyle.jpg", description: "3D animated look" },
+      { name: "Cyberpunk", image: "CyberpunkStyle.jpg", description: "Futuristic neon style" },
+      { name: "Oilpainting", image: "OilpaintingStyle.jpg", description: "Classic brushstroke look" },
+      { name: "Minecraft", image: "MinecraftStyle.jpg", description: "Blocky voxel art" },
+      { name: "2D Game Art", image: "2DGameStyle.jpg", description: "Stylized flat art" },
+      { name: "Vintage Comic Noir", image: "VintageComicStyle.jpg", description: "Retro comic style" },
+      { name: "Simpsons", image: "SimpsonsStyle.jpg", description: "Yellow cartoon classic" }
+    ];
+
+    const styleGrid = document.getElementById('styleGrid');
+    const toast = document.getElementById('toast');
+    const spinner = document.getElementById('spinner');
+    const usageCount = document.getElementById('usageCount');
+    const previewContainer = document.getElementById('preview');
+
+    let selectedStyle = null;
+    let couponCode = null;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    styles.forEach(style => {
+      const div = document.createElement('div');
+      div.className = 'style-card';
+      div.innerHTML = `<img src="${style.image}" alt="${style.name}"><strong>${style.name}</strong><p style="font-size: 0.85rem; color: #555;">${style.description}</p>`;
+      div.onclick = () => {
+        document.querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
+        div.classList.add('selected');
+        selectedStyle = style.name;
+      };
+      styleGrid.appendChild(div);
+    });
+
+    document.getElementById('getCoupon').onclick = async () => {
+      const email = document.getElementById('email').value;
+      if (!email) return showToast("Please enter your email.");
+
+      const res = await fetch("https://us-central1-YOUR_PROJECT.cloudfunctions.net/generateCouponReq", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const result = await res.json();
+      if (result.couponCode) {
+        couponCode = result.couponCode;
+        showToast("Coupon sent to your email!");
+        usageCount.textContent = `Remaining Uses: 20`;
+      } else if (result.success && result.remainingUses >= 0) {
+        couponCode = result.code;
+        usageCount.textContent = `Remaining Uses: ${result.remainingUses}`;
+        showToast("Coupon already exists. Using existing one.");
+      } else {
+        showToast(result.error || "Failed to send coupon");
+      }
+    };
+
+    document.getElementById('submitTryout').onclick = async () => {
+      const email = document.getElementById('email').value;
+      const file = document.getElementById('imageUpload').files[0];
+      if (!selectedStyle || !email || !file || !couponCode) return showToast('Please fill all fields and get a coupon.');
+
+      const formData = new FormData();
+      formData.append("style", selectedStyle);
+      formData.append("couponCode", couponCode);
+      formData.append("image", file);
+
+      spinner.style.display = 'block';
+      const res = await fetch("https://us-central1-YOUR_PROJECT.cloudfunctions.net/tryoutGenerate", {
+        method: "POST",
+        body: formData
+      });
+      const result = await res.json();
+      spinner.style.display = 'none';
+
+      if (result.imageUrls) {
+        showToast("Images generated!");
+        previewContainer.innerHTML = result.imageUrls.map(url => `<img src="${url}" alt="Generated">`).join('');
+        if (result.remainingUses !== undefined) {
+          usageCount.textContent = `Remaining Uses: ${result.remainingUses}`;
+        }
+      } else {
+        showToast(result.error || "Something went wrong");
+      }
+    };
+  </script>
+</body>
+</html>
